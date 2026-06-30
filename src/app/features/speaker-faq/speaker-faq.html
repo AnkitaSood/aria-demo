@@ -1,31 +1,33 @@
 <section class="faq">
   <h2 class="faq-heading">Speaker FAQ</h2>
 
-  <div class="faq-item">
-    <button class="faq-trigger" [class.is-open]="panel1Open()" (click)="toggle(1)">
-      <span class="faq-indicator" aria-hidden="true"></span>
-      What format should my abstract be in?
-    </button>
-    @if (panel1Open()) {
-      <div class="faq-panel">
-        <p>Submit a 150–300 word abstract in plain text. Include a one-sentence summary,
-        3–4 bullet points covering key takeaways, and your target audience level
-        (beginner / intermediate / advanced).</p>
+  <div ngAccordionGroup [multiExpandable]="false" class="faq-group">
+    <div class="faq-item">
+      <button ngAccordionTrigger [panel]="panel1" class="faq-trigger">
+        <span class="faq-indicator" aria-hidden="true"></span>
+        What format should my abstract be in?
+      </button>
+      <div ngAccordionPanel #panel1="ngAccordionPanel" class="faq-panel">
+        <ng-template ngAccordionContent>
+          <p>Submit a 150–300 word abstract in plain text. Include a one-sentence summary,
+          3–4 bullet points covering key takeaways, and your target audience level
+          (beginner / intermediate / advanced).</p>
+        </ng-template>
       </div>
-    }
-  </div>
+    </div>
 
-  <div class="faq-item">
-    <button class="faq-trigger" [class.is-open]="panel2Open()" (click)="toggle(2)">
-      <span class="faq-indicator" aria-hidden="true"></span>
-      How long is the demo slot?
-    </button>
-    @if (panel2Open()) {
-      <div class="faq-panel">
-        <p>Demo slots are 25 minutes including Q&amp;A. Plan for 18–20 minutes of content
-        with 5–7 minutes for questions. Live coding demos should have a fallback recording
-        in case of network issues.</p>
+    <div class="faq-item">
+      <button ngAccordionTrigger [panel]="panel2" class="faq-trigger">
+        <span class="faq-indicator" aria-hidden="true"></span>
+        How long is the demo slot?
+      </button>
+      <div ngAccordionPanel #panel2="ngAccordionPanel" class="faq-panel">
+        <ng-template ngAccordionContent>
+          <p>Demo slots are 25 minutes including Q&amp;A. Plan for 18–20 minutes of content
+          with 5–7 minutes for questions. Live coding demos should have a fallback recording
+          in case of network issues.</p>
+        </ng-template>
       </div>
-    }
+    </div>
   </div>
 </section>

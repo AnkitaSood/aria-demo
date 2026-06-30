@@ -11,6 +11,11 @@
   color: var(--color-text);
 }
 
+.faq-group {
+  display: flex;
+  flex-direction: column;
+}
+
 .faq-item {
   border-top: 1px solid var(--color-border);
 }
@@ -38,6 +43,7 @@
   height: 1em;
   flex-shrink: 0;
   align-self: center;
+  transition: transform var(--duration-fast) var(--easing-standard);
 }
 
 .faq-indicator::before,
@@ -48,28 +54,79 @@
   margin: auto;
   background: currentColor;
   border-radius: 1px;
+  transition: background var(--duration-fast) var(--easing-standard);
 }
 
+/* vertical bar */
 .faq-indicator::before {
   width: 2px;
   height: 100%;
 }
 
+/* horizontal bar */
 .faq-indicator::after {
   width: 100%;
   height: 2px;
 }
 
-.faq-trigger.is-open {
+/* Style via ARIA state — no .is-open class */
+[ngAccordionTrigger]:hover {
+  color: var(--color-accent);
+  background: var(--color-surface-active);
+  border-radius: var(--radius-sm);
+}
+
+[ngAccordionTrigger][aria-expanded='true'] {
   color: var(--color-accent);
 }
 
-.faq-trigger.is-open .faq-indicator {
+[ngAccordionTrigger][aria-expanded='true'] .faq-indicator {
   transform: rotate(45deg);
 }
 
+[ngAccordionTrigger]:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
 .faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 250ms var(--easing-standard);
+}
+
+.faq-panel:not([inert]) {
+  grid-template-rows: 1fr;
+}
+
+.faq-panel > p {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--easing-standard);
   padding-bottom: var(--space-3);
   color: var(--color-text-muted);
   font-size: 0.875rem;
+  margin: 0;
+}
+
+.faq-panel:not([inert]) > p {
+  opacity: 1;
+  transition: opacity var(--duration-fast) var(--easing-standard) 80ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-panel {
+    transition: none;
+  }
+
+  .faq-panel > p {
+    transition: none;
+    opacity: 1;
+  }
+
+  .faq-indicator {
+    transition: none;
+  }
 }
