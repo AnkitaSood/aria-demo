@@ -1,0 +1,60 @@
+<nav class="menubar" aria-label="Application menu">
+  <div class="menu-group">
+    <button
+      class="menu-trigger"
+      aria-haspopup="true"
+      [attr.aria-expanded]="fileMenuOpen"
+      (click)="toggleFileMenu()"
+    >
+      File
+    </button>
+    @if (fileMenuOpen) {
+      <ul class="menu" role="menu">
+        <li role="none">
+          <a role="menuitem" routerLink="/submit" (click)="closeMenus()">New Submission</a>
+        </li>
+        <li role="none">
+          <button role="menuitem" (click)="closeMenus()">Save Draft</button>
+        </li>
+        <li role="separator" class="menu-separator"></li>
+        <li role="none">
+          <button role="menuitem" (click)="closeMenus()">Exit</button>
+        </li>
+      </ul>
+    }
+  </div>
+
+  <div class="menu-group">
+    <button
+      class="menu-trigger"
+      aria-haspopup="true"
+      [attr.aria-expanded]="helpMenuOpen"
+      (click)="toggleHelpMenu()"
+    >
+      Help
+    </button>
+    @if (helpMenuOpen) {
+      <ul class="menu" role="menu">
+        <li role="none">
+          <button role="menuitem" (click)="closeMenus()">Keyboard Shortcuts</button>
+        </li>
+        <li role="none">
+          <button role="menuitem" (click)="closeMenus()">About &#64;angular/aria</button>
+        </li>
+      </ul>
+    }
+  </div>
+
+  <a
+    href="https://nebraskacode.amegala.com/"
+    target="_blank"
+    rel="noreferrer"
+    class="menu-link"
+  >
+    About
+  </a>
+</nav>
+
+<main class="main-content">
+  <router-outlet />
+</main>

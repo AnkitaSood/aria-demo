@@ -1,0 +1,22 @@
+:root {
+  --color-surface: #0e0c0c;
+  --color-surface-elevated: #1a1414;
+  --color-surface-active: #2d1a1a;
+  --color-border: #3a2222;
+  --color-text: #f5ecd7;
+  --color-text-muted: #c4a87a;
+  --color-accent: #fbbd1e;
+  --color-focus-ring: #fbbd1e;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --duration-fast: 150ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
