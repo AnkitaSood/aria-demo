@@ -1,25 +1,24 @@
-# Branch: 07-material-comparison
+# Branch: 08-final-polish
 
 ## What changed
-`SpeakerFaqMaterialComponent` added using `MatAccordion`/`MatExpansionPanel`. It renders
-beside the `@angular/aria` accordion. `@angular/material@22` added to dependencies.
-`BUNDLE_SIZES.md` created with production build sizes from both branches.
+`prefers-reduced-motion` media query added globally — all transitions collapse to 0.01ms
+when motion is reduced. Focus ring consistency verified across all interactive elements
+using the `--color-focus-ring` token throughout.
 
 ## What to say
-"Two accordions, same content, same questions. Left: @angular/aria — your HTML, your CSS,
-zero Material imports. Right: @angular/material — opinionated visual style, theme CSS,
-full Material runtime."
+"Last polish pass. The focus ring uses `--color-focus-ring` everywhere — one token, one
+place to change it. And all our CSS transitions respect `prefers-reduced-motion`. If a
+user has set that preference in their OS, every animation collapses to instant. One media
+query in global.css, zero changes to any component."
 
-[Point to BUNDLE_SIZES.md — read numbers aloud]
-
-"@angular/aria accordion costs roughly zero extra kB beyond what CDK already gives you.
-@angular/material adds 148 kB JS for the expansion module plus 104 kB for the theme. Not a moral judgment —
-sometimes you want Material's design system. But if you only need the ARIA pattern, @angular/aria
-gets you there without the payload."
+"This is @angular/aria's value proposition in one sentence: you control the CSS, you
+control accessibility. The library manages state and keyboard behavior. You handle
+everything the user sees."
 
 ## Keyboard demo sequence
-1. Tab through both accordions — same keyboard contract (Space/Enter, Arrow keys)
-2. Visual contrast: Material has its own visual style, @angular/aria uses our tokens
-3. Inspect the @angular/aria accordion — no mat- classes, no Material theme styles
-4. Inspect the Material accordion — mat-expansion-panel, Material CSS variables
-5. Speak BUNDLE_SIZES.md numbers aloud
+1. Tab through entire app — every interactive element has visible focus ring
+2. Open DevTools → Rendering → Enable 'Emulate CSS prefers-reduced-motion'
+3. Open/close menu — instant, no transition
+4. Open/close FAQ accordion — instant
+5. Turn off emulation — transitions return
+6. Say: "One media query. All motion respect. That's what owning your CSS means."
