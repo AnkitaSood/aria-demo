@@ -1,13 +1,9 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { AppShellComponent } from './shell/app-shell';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './app.css'
+  imports: [AppShellComponent],
+  template: '<app-shell />',
 })
-export class App {
-  protected readonly title = signal('aria-demo');
-}
+export class App {}
