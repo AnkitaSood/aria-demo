@@ -1,32 +1,32 @@
-# Branch: 05-autocomplete
+# Branch: 06-combobox
 
 ## What changed
-The Talk Track field is now an accessible autocomplete widget composed from `@angular/aria/combobox`
-primitives: `Combobox` (`[ngCombobox]`), `ComboboxPopup` (`ng-template[ngComboboxPopup]`), and
-`ComboboxWidget` (`[ngComboboxWidget]`), combined with `Listbox` and `Option` from `@angular/aria/listbox`.
+Session Format is now a select-only combobox: `[ngCombobox]` on the input (with `readonly`),
+`ng-template[ngComboboxPopup]` wrapping the popup, and `[ngComboboxWidget][ngListbox]` on the `<ul>`
+with `[ngOption]` on each `<li>`. Unlike Talk Track, no freeform text is allowed — the input is
+`readonly` and the user must pick from the 8 format options.
 
-Filtering is driven by a `computed()` signal. CSS targets `[ngOption][aria-selected='true']`
-to style the active option — no custom class.
-
-Note: `@angular/aria/autocomplete` does not exist in v22. The pattern is composed from
-`Combobox + ComboboxPopup + ComboboxWidget + Listbox + Option`.
+Signal bridge: `selectedFormat = signal<string[]>([])` receives the listbox selection, and an
+`effect()` writes `selected[0]` to `model.coSpeaker` and `formatQuery` (the combobox display value).
+No `[formField]` on this field — same lesson as Task 6.
 
 ## What to say
-"Talk Track is now an autocomplete. The input has `[ngCombobox]` and `#combobox='ngCombobox'`.
-The directive handles `aria-autocomplete`, `aria-expanded`, `aria-activedescendant`, and `role='combobox'`
-on the input automatically. The popup is an `ng-template[ngComboboxPopup]` containing a `ul` with
-both `[ngComboboxWidget]` and `[ngListbox]` — these two directives make the listbox communicate
-active-descendant IDs back up to the combobox input.
+"Autocomplete vs combobox — same @angular/aria family, different interaction contract.
+Autocomplete lets you type and filter. Combobox gives you a structured list — no freeform
+entry. The wiring is similar but the primitives are different. That's the 'choose your
+primitive' moment this library is designed for."
 
-Watch `aria-activedescendant` in DevTools as I arrow down through the options — it updates to the
-active option's ID on every keystroke. The Signal Form field `[formField]='sessionForm.talkTrack'`
-stays on the input, and an `effect()` bridges the listbox selection back into the form model."
+[Show git diff 05-autocomplete 06-combobox]
+
+"The diff adds SESSION_FORMATS, a `selectedFormat` signal, a `formatQuery` signal, an effect,
+and one block of HTML. The ARIA semantics are completely different:
+`role='combobox'` on the input, `role='listbox'` on the panel, `role='option'` on each item,
+`aria-selected` toggling as you arrow through. All managed by @angular/aria."
 
 ## Keyboard demo sequence
-1. Tab to Talk Track input — `role="combobox"` is set on the input
-2. Type "fr" — panel opens, "Frontend" appears (filtered by `computed()`)
-3. Press Arrow Down — "Frontend" gets `[aria-selected='true']`
-4. In DevTools → show `aria-activedescendant` on the input updating to the option's ID
-5. Press Enter — "Frontend" selected, panel closes, field value updated in the form model
-6. Clear field — type nothing — all 9 tracks shown
-7. Press Escape — panel closes without selecting
+1. Tab to Session Format (combobox input — readonly, so no typing)
+2. Press Enter or Space — listbox opens, `role="listbox"` visible in DevTools
+3. Arrow Down — `[ngOption][aria-selected='true']` moves down the list
+4. Press Enter — option selected, listbox closes, input shows selected value
+5. Compare with Talk Track field — "editable input, filtered list = autocomplete; readonly input, full list = select-only combobox"
+6. DevTools: compare `aria-autocomplete="list"` (Talk Track) vs `role="combobox"` (Session Format — no aria-autocomplete)

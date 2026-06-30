@@ -71,14 +71,38 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label" for="coSpeaker">Session Format</label>
-        <input
-          id="coSpeaker"
-          type="text"
-          class="field-input"
-          [formField]="sessionForm.coSpeaker"
-          placeholder="e.g. Workshop, Panel, Live Coding…"
-        />
+        <label class="field-label" for="formatInput">Session Format</label>
+        <div class="combobox-wrapper">
+          <input
+            id="formatInput"
+            type="text"
+            class="field-input"
+            ngCombobox
+            #formatCombobox="ngCombobox"
+            [value]="formatQuery()"
+            placeholder="Select a format…"
+            readonly
+          />
+          <ng-template ngComboboxPopup [combobox]="formatCombobox" [popupType]="'listbox'">
+            <ul
+              ngComboboxWidget
+              ngListbox
+              #formatListbox="ngListbox"
+              focusMode="activedescendant"
+              selectionMode="explicit"
+              [activeDescendant]="formatListbox.activeDescendant()"
+              [(value)]="selectedFormat"
+              class="listbox-panel"
+              aria-label="Session formats"
+            >
+              @for (format of formats; track format) {
+                <li ngOption [value]="format" class="listbox-option">
+                  {{ format }}
+                </li>
+              }
+            </ul>
+          </ng-template>
+        </div>
       </div>
 
       <button type="submit" class="submit-btn" [disabled]="sessionForm().invalid()">

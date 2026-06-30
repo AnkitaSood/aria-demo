@@ -16,6 +16,11 @@ const ALL_TRACKS = [
   'Career', 'Design Systems',
 ];
 
+const SESSION_FORMATS = [
+  'Lightning Talk', 'Workshop', 'Panel', 'Live Coding',
+  'Fireside Chat', 'Keynote', 'Birds of a Feather', 'Office Hours',
+];
+
 @Component({
   selector: 'app-session-submission',
   imports: [
@@ -47,7 +52,7 @@ export class SessionSubmissionComponent {
   /** Tracks the current text in the combobox input for filtering */
   readonly trackQuery = signal('');
 
-  /** Tracks the selected value from the listbox */
+  /** Tracks the selected value from the listbox (talkTrack) */
   readonly selectedTrack = signal<string[]>([]);
 
   readonly filteredTracks = computed(() => {
@@ -55,6 +60,15 @@ export class SessionSubmissionComponent {
     if (!query) return ALL_TRACKS;
     return ALL_TRACKS.filter((t) => t.toLowerCase().includes(query));
   });
+
+  /** Session format options for the select-only combobox */
+  readonly formats = SESSION_FORMATS;
+
+  /** Tracks the selected format from the combobox listbox */
+  readonly selectedFormat = signal<string[]>([]);
+
+  /** The display value shown in the format combobox trigger */
+  readonly formatQuery = signal('');
 
   constructor() {
     // Single write path: trackQuery is the source of truth for the input value.
@@ -71,6 +85,14 @@ export class SessionSubmissionComponent {
       if (selected.length > 0) {
         this.trackQuery.set(selected[0]);
       }
+    });
+
+    // When the user selects a format, write it to model.coSpeaker and update display.
+    effect(() => {
+      const selected = this.selectedFormat();
+      const value = selected[0] ?? '';
+      this.formatQuery.set(value);
+      this.model.update((m) => ({ ...m, coSpeaker: value }));
     });
   }
 
