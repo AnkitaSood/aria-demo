@@ -1,26 +1,30 @@
-# Branch: 02-accordion-faq
+# Branch: 03-accordion-aria
 
 ## What changed
-SpeakerFaqComponent now has click-toggle open/close state. But it's the same broken pattern
-as the branch-00 menubar: click works, keyboard doesn't. No `aria-expanded`, no
-`aria-controls`, no `role="region"`. The active state is toggled via `.is-open` class,
-not ARIA attributes.
+SpeakerFaqComponent now uses `@angular/aria/accordion` directives: `ngAccordionGroup`,
+`ngAccordionTrigger`, `ngAccordionPanel`, `ngAccordionContent`.
+`[multiExpandable]="false"` enforces single-panel-open. CSS uses `[ngAccordionTrigger][aria-expanded='true']`
+instead of `.is-open`. Content is lazily rendered via `ng-template[ngAccordionContent]`.
 
 ## What to say
-"Accordion, same story as the menubar. Click works. Let me Tab to a question and press
-Space or Enter."
+`git diff 02-accordion-faq 03-accordion-aria -- src/app/features/speaker-faq/`
 
-[Demonstrate: Tab to trigger button, press Space — panel opens. Now press Tab again —
-focus moves INTO the panel text, then out the bottom. Arrow keys do nothing. Screen reader
-users hear a generic button with no expanded state.]
+"The diff: removed `signal()`, removed `toggle()`, removed `[class.is-open]`. Added four
+directive imports and attribute selectors. Zero JavaScript state management — @angular/aria
+owns that. The CSS still targets the same `aria-expanded` attribute, so it reads like the
+spec: 'when expanded, color is accent.'"
 
-"The button has no aria-expanded. The panel has no role. A screen reader announces
-'What format should my abstract be in? button' with no context about whether content
-is shown. Same fix — @angular/aria/accordion."
+"Open DevTools → Elements. Click a FAQ trigger. Watch `aria-expanded` flip from false to
+true in real time. The panel gets `role='region'` and `aria-labelledby` pointing back
+to the trigger. That's the WAI-ARIA Accordion pattern — complete, correct, zero lines
+of accessibility code written by us."
 
 ## Keyboard demo sequence
-1. Tab to first FAQ button, press Space — panel opens (click handler fires on Space)
-2. Tab — focus skips INTO panel content (wrong: should stay on triggers)
-3. Press Escape — nothing (no close behavior)
-4. Inspect button in DevTools — no aria-expanded attribute
-5. Say: "One more widget, same missing ARIA, same missing keyboard contract"
+1. Tab to first FAQ trigger
+2. Press Space or Enter — panel opens, aria-expanded="true" visible in DevTools
+3. Press Tab — focus stays on accordion triggers (does NOT fall into panel)
+4. Press Arrow Down — moves to second trigger (roving tabindex or sequential)
+5. Press Space — second panel opens, first closes (multiExpandable=false)
+6. Press Home — jumps to first trigger
+7. Press End — jumps to last trigger
+8. Inspect the open panel in DevTools — show role="region" and aria-labelledby

@@ -11,6 +11,11 @@
   color: var(--color-text);
 }
 
+.faq-group {
+  display: flex;
+  flex-direction: column;
+}
+
 .faq-item {
   border-top: 1px solid var(--color-border);
 }
@@ -28,12 +33,25 @@
   transition: color var(--duration-fast) var(--easing-standard);
 }
 
-.faq-trigger.is-open {
+/* Style via ARIA state — no .is-open class */
+[ngAccordionTrigger][aria-expanded='true'] {
   color: var(--color-accent);
 }
 
+[ngAccordionTrigger]:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
 .faq-panel {
+  overflow: hidden;
+  transition: height var(--duration-fast) var(--easing-standard);
+}
+
+[ngAccordionContent] p {
   padding-bottom: var(--space-3);
   color: var(--color-text-muted);
   font-size: 0.875rem;
+  margin: 0;
 }
