@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { form, FormField, required, submit } from '@angular/forms/signals';
+import { Combobox, ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
+import { Listbox, Option } from '@angular/aria/listbox';
 import { SpeakerFaqComponent } from '../speaker-faq/speaker-faq';
 
 interface SessionSubmission {
@@ -8,9 +10,23 @@ interface SessionSubmission {
   coSpeaker: string;
 }
 
+const ALL_TRACKS = [
+  'Frontend', 'Backend', 'DevOps', 'AI/ML',
+  'Accessibility', 'Architecture', 'Testing',
+  'Career', 'Design Systems',
+];
+
 @Component({
   selector: 'app-session-submission',
-  imports: [SpeakerFaqComponent, FormField],
+  imports: [
+    SpeakerFaqComponent,
+    FormField,
+    Combobox,
+    ComboboxPopup,
+    ComboboxWidget,
+    Listbox,
+    Option,
+  ],
   templateUrl: './session-submission.html',
   styleUrl: './session-submission.css',
 })
@@ -27,6 +43,29 @@ export class SessionSubmissionComponent {
   });
 
   readonly submitted = signal(false);
+
+  /** Tracks the current text in the combobox input for filtering */
+  readonly trackQuery = signal('');
+
+  /** Tracks the selected value from the listbox */
+  readonly selectedTrack = signal<string[]>([]);
+
+  readonly filteredTracks = computed(() => {
+    const query = this.trackQuery().toLowerCase();
+    if (!query) return ALL_TRACKS;
+    return ALL_TRACKS.filter((t) => t.toLowerCase().includes(query));
+  });
+
+  constructor() {
+    // When the user selects a track from the listbox, update the form model
+    effect(() => {
+      const selected = this.selectedTrack();
+      if (selected.length > 0) {
+        this.model.update((m) => ({ ...m, talkTrack: selected[0] }));
+        this.trackQuery.set(selected[0]);
+      }
+    });
+  }
 
   onSubmit(event: Event): void {
     event.preventDefault();

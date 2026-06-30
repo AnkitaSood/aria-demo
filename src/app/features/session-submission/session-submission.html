@@ -29,13 +29,39 @@
 
       <div class="field-group">
         <label class="field-label" for="talkTrack">Talk Track</label>
-        <input
-          id="talkTrack"
-          type="text"
-          class="field-input"
-          [formField]="sessionForm.talkTrack"
-          placeholder="e.g. Frontend, DevOps, AI/ML…"
-        />
+        <div class="autocomplete-wrapper">
+          <input
+            id="talkTrack"
+            type="text"
+            class="field-input"
+            [formField]="sessionForm.talkTrack"
+            ngCombobox
+            #combobox="ngCombobox"
+            [(value)]="trackQuery"
+          />
+          <ng-template ngComboboxPopup [combobox]="combobox" [popupType]="'listbox'">
+            <ul
+              ngComboboxWidget
+              ngListbox
+              #listbox="ngListbox"
+              focusMode="activedescendant"
+              selectionMode="follow"
+              [activeDescendant]="listbox.activeDescendant()"
+              [(value)]="selectedTrack"
+              class="autocomplete-panel"
+              aria-label="Talk tracks"
+            >
+              @for (track of filteredTracks(); track track) {
+                <li ngOption [value]="track" class="autocomplete-option">
+                  {{ track }}
+                </li>
+              }
+              @empty {
+                <li class="autocomplete-empty" role="presentation">No matching tracks</li>
+              }
+            </ul>
+          </ng-template>
+        </div>
         @if (sessionForm.talkTrack().touched() && sessionForm.talkTrack().invalid()) {
           <ul class="field-errors" role="alert">
             @for (error of sessionForm.talkTrack().errors(); track error.kind) {
