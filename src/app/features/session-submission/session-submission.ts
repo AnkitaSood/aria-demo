@@ -57,11 +57,18 @@ export class SessionSubmissionComponent {
   });
 
   constructor() {
-    // When the user selects a track from the listbox, update the form model
+    // Single write path: trackQuery is the source of truth for the input value.
+    // This effect keeps model.talkTrack in sync with whatever the user has typed.
+    effect(() => {
+      const query = this.trackQuery();
+      this.model.update((m) => ({ ...m, talkTrack: query }));
+    });
+
+    // When the user selects a track from the listbox, update trackQuery.
+    // The effect above will then propagate the value to model.talkTrack.
     effect(() => {
       const selected = this.selectedTrack();
       if (selected.length > 0) {
-        this.model.update((m) => ({ ...m, talkTrack: selected[0] }));
         this.trackQuery.set(selected[0]);
       }
     });
