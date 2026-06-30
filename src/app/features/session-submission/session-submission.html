@@ -1,7 +1,65 @@
 <div class="submission-layout">
   <section class="form-section">
     <h1 class="page-title">Submit a Session</h1>
-    <p class="form-placeholder">Form coming soon…</p>
+
+    @if (submitted()) {
+      <div class="success-banner" role="status">
+        ✅ Session submitted! Check the console for the form value.
+      </div>
+    }
+
+    <form class="session-form" (submit)="onSubmit($event)" novalidate>
+      <div class="field-group">
+        <label class="field-label" for="speakerName">Speaker Name</label>
+        <input
+          id="speakerName"
+          type="text"
+          class="field-input"
+          [formField]="sessionForm.speakerName"
+          autocomplete="name"
+        />
+        @if (sessionForm.speakerName().touched() && sessionForm.speakerName().invalid()) {
+          <ul class="field-errors" role="alert">
+            @for (error of sessionForm.speakerName().errors(); track error.kind) {
+              <li>{{ error.message }}</li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="talkTrack">Talk Track</label>
+        <input
+          id="talkTrack"
+          type="text"
+          class="field-input"
+          [formField]="sessionForm.talkTrack"
+          placeholder="e.g. Frontend, DevOps, AI/ML…"
+        />
+        @if (sessionForm.talkTrack().touched() && sessionForm.talkTrack().invalid()) {
+          <ul class="field-errors" role="alert">
+            @for (error of sessionForm.talkTrack().errors(); track error.kind) {
+              <li>{{ error.message }}</li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="coSpeaker">Session Format</label>
+        <input
+          id="coSpeaker"
+          type="text"
+          class="field-input"
+          [formField]="sessionForm.coSpeaker"
+          placeholder="e.g. Workshop, Panel, Live Coding…"
+        />
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="sessionForm().invalid()">
+        Submit Session
+      </button>
+    </form>
   </section>
 
   <aside class="faq-section">
