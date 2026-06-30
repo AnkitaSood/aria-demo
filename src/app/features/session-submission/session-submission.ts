@@ -3,6 +3,7 @@ import { form, FormField, required, submit } from '@angular/forms/signals';
 import { Combobox, ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
 import { Listbox, Option } from '@angular/aria/listbox';
 import { SpeakerFaqComponent } from '../speaker-faq/speaker-faq';
+import { SpeakerFaqMaterialComponent } from '../speaker-faq-material/speaker-faq-material';
 
 interface SessionSubmission {
   speakerName: string;
@@ -25,6 +26,7 @@ const SESSION_FORMATS = [
   selector: 'app-session-submission',
   imports: [
     SpeakerFaqComponent,
+    SpeakerFaqMaterialComponent,
     FormField,
     Combobox,
     ComboboxPopup,

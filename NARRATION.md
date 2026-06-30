@@ -1,32 +1,25 @@
-# Branch: 06-combobox
+# Branch: 07-material-comparison
 
 ## What changed
-Session Format is now a select-only combobox: `[ngCombobox]` on the input (with `readonly`),
-`ng-template[ngComboboxPopup]` wrapping the popup, and `[ngComboboxWidget][ngListbox]` on the `<ul>`
-with `[ngOption]` on each `<li>`. Unlike Talk Track, no freeform text is allowed — the input is
-`readonly` and the user must pick from the 8 format options.
-
-Signal bridge: `selectedFormat = signal<string[]>([])` receives the listbox selection, and an
-`effect()` writes `selected[0]` to `model.coSpeaker` and `formatQuery` (the combobox display value).
-No `[formField]` on this field — same lesson as Task 6.
+`SpeakerFaqMaterialComponent` added using `MatAccordion`/`MatExpansionPanel`. It renders
+beside the `@angular/aria` accordion. `@angular/material@22` added to dependencies.
+`BUNDLE_SIZES.md` created with production build sizes from both branches.
 
 ## What to say
-"Autocomplete vs combobox — same @angular/aria family, different interaction contract.
-Autocomplete lets you type and filter. Combobox gives you a structured list — no freeform
-entry. The wiring is similar but the primitives are different. That's the 'choose your
-primitive' moment this library is designed for."
+"Two accordions, same content, same questions. Left: @angular/aria — your HTML, your CSS,
+zero Material imports. Right: @angular/material — opinionated visual style, theme CSS,
+full Material runtime."
 
-[Show git diff 05-autocomplete 06-combobox]
+[Point to BUNDLE_SIZES.md — read numbers aloud]
 
-"The diff adds SESSION_FORMATS, a `selectedFormat` signal, a `formatQuery` signal, an effect,
-and one block of HTML. The ARIA semantics are completely different:
-`role='combobox'` on the input, `role='listbox'` on the panel, `role='option'` on each item,
-`aria-selected` toggling as you arrow through. All managed by @angular/aria."
+"@angular/aria accordion costs roughly zero extra kB beyond what CDK already gives you.
+@angular/material adds 148 kB JS for the expansion module plus 104 kB for the theme. Not a moral judgment —
+sometimes you want Material's design system. But if you only need the ARIA pattern, @angular/aria
+gets you there without the payload."
 
 ## Keyboard demo sequence
-1. Tab to Session Format (combobox input — readonly, so no typing)
-2. Press Enter or Space — listbox opens, `role="listbox"` visible in DevTools
-3. Arrow Down — `[ngOption][aria-selected='true']` moves down the list
-4. Press Enter — option selected, listbox closes, input shows selected value
-5. Compare with Talk Track field — "editable input, filtered list = autocomplete; readonly input, full list = select-only combobox"
-6. DevTools: compare `aria-autocomplete="list"` (Talk Track) vs `role="combobox"` (Session Format — no aria-autocomplete)
+1. Tab through both accordions — same keyboard contract (Space/Enter, Arrow keys)
+2. Visual contrast: Material has its own visual style, @angular/aria uses our tokens
+3. Inspect the @angular/aria accordion — no mat- classes, no Material theme styles
+4. Inspect the Material accordion — mat-expansion-panel, Material CSS variables
+5. Speak BUNDLE_SIZES.md numbers aloud
