@@ -21,7 +21,9 @@
 }
 
 .faq-trigger {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   padding: var(--space-3) 0;
   background: transparent;
@@ -30,7 +32,23 @@
   font-size: 0.9375rem;
   font-weight: 500;
   text-align: left;
+  cursor: pointer;
   transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.faq-chevron {
+  display: inline-block;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  transform: rotate(0deg);
+  transition: transform var(--duration-fast) var(--easing-standard),
+              color var(--duration-fast) var(--easing-standard);
+}
+
+[ngAccordionTrigger][aria-expanded='true'] .faq-chevron {
+  transform: rotate(180deg);
+  color: var(--color-accent);
 }
 
 /* Style via ARIA state — no .is-open class */

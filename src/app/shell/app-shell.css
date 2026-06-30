@@ -1,3 +1,8 @@
+/* Composite widget — focus ring belongs on the individual triggers, not the container */
+[ngMenuBar]:focus-visible {
+  outline: none;
+}
+
 .menubar {
   display: flex;
   gap: var(--space-1);
@@ -36,6 +41,14 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   min-width: 180px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+}
+
+[ngMenu]:not([data-visible='true']) {
+  display: none;
 }
 
 .menu-item-btn,

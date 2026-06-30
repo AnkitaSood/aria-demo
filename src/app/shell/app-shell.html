@@ -3,36 +3,34 @@
     <button ngMenuTrigger [menu]="fileMenu" class="menu-trigger">
       File
     </button>
+    <ul ngMenu #fileMenu="ngMenu" class="menu">
+      <li role="none">
+        <a ngMenuItem value="new-submission" routerLink="/submit" class="menu-item-link">New Submission</a>
+      </li>
+      <li role="none">
+        <button ngMenuItem value="save-draft" class="menu-item-btn">Save Draft</button>
+      </li>
+      <li class="menu-separator" role="separator"></li>
+      <li role="none">
+        <button ngMenuItem value="exit" class="menu-item-btn">Exit</button>
+      </li>
+    </ul>
   </div>
 
   <div class="menu-group">
     <button ngMenuTrigger [menu]="helpMenu" class="menu-trigger">
       Help
     </button>
+    <ul ngMenu #helpMenu="ngMenu" class="menu">
+      <li role="none">
+        <button ngMenuItem value="keyboard-shortcuts" class="menu-item-btn">Keyboard Shortcuts</button>
+      </li>
+      <li role="none">
+        <button ngMenuItem value="about" class="menu-item-btn">About &#64;angular/aria</button>
+      </li>
+    </ul>
   </div>
 </nav>
-
-<ul ngMenu #fileMenu="ngMenu" class="menu">
-  <li role="none">
-    <a ngMenuItem value="new-submission" routerLink="/submit" class="menu-item-link">New Submission</a>
-  </li>
-  <li role="none">
-    <button ngMenuItem value="save-draft" class="menu-item-btn">Save Draft</button>
-  </li>
-  <li class="menu-separator" role="separator"></li>
-  <li role="none">
-    <button ngMenuItem value="exit" class="menu-item-btn">Exit</button>
-  </li>
-</ul>
-
-<ul ngMenu #helpMenu="ngMenu" class="menu">
-  <li role="none">
-    <button ngMenuItem value="keyboard-shortcuts" class="menu-item-btn">Keyboard Shortcuts</button>
-  </li>
-  <li role="none">
-    <button ngMenuItem value="about" class="menu-item-btn">About &#64;angular/aria</button>
-  </li>
-</ul>
 
 <main class="main-content">
   <router-outlet />
