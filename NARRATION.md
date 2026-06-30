@@ -1,25 +1,28 @@
-# Branch: 00-scaffold
+# Branch: 01-menubar-aria
 
 ## What changed
-Full file structure is in place: CSS token system, AppShellComponent with a plain HTML menubar,
-SessionSubmissionComponent (empty layout), and SpeakerFaqComponent (static text). All tokens and
-global styles are finalized — visual output in future branches will match this exactly.
+`@angular/aria/menu` directives (`ngMenuBar`, `ngMenuTrigger`, `ngMenu`, `ngMenuItem`) replace
+the manual click-handler menubar. CDK Overlay handles popup positioning. Styles now target
+`[ngMenuTrigger][aria-expanded='true']` instead of a custom `.is-open` class.
 
 ## What to say
-"Here's the DevConf Companion app. It looks done — we have a menubar, a two-column layout,
-a form section, and a FAQ panel. Let me try navigating it with only a keyboard."
+"Four lines of directive imports, three attribute changes in the template. Same HTML structure.
+Let me show you what changed."
 
-[Tab through the page. Show that the menubar buttons receive focus but arrow keys don't move
-between menus, and opening a menu item with Enter/Space doesn't work.]
+`git diff 00-scaffold 01-menubar-aria -- src/app/shell/`
 
-"The ARIA attributes are there — aria-haspopup, aria-expanded — but they're wired to click
-handlers. No keyboard navigation, no focus management, no arrow-key support. The browser
-has no idea these buttons form a menubar. That's what @angular/aria fixes."
+"The diff is the story — we removed the `fileMenuOpen`/`helpMenuOpen` booleans, the toggle
+methods, the `@if` blocks. We added `ngMenuBar`, `ngMenuTrigger`, `ngMenu`, `ngMenuItem`.
+That's it. @angular/aria took care of focus management, keyboard navigation, and ARIA
+attribute wiring."
 
 ## Keyboard demo sequence
-1. Press Tab — focus lands on "File" button
-2. Press Enter — menu opens (via click handler)
-3. Press Tab — focus does NOT move into menu items (broken)
-4. Press Escape — menu does NOT close (broken)
-5. Press Arrow Down — nothing happens (broken)
-6. Say: "Three broken behaviors — that's the problem space."
+1. Press Tab — focus lands on "File"
+2. Press Arrow Right — focus moves to "Help" (menubar roving tabindex)
+3. Press Arrow Left — back to "File"
+4. Press Enter or Space — File menu opens, focus moves to first item
+5. Press Arrow Down / Up — moves through menu items
+6. Press Home / End — jumps to first / last item
+7. Press Escape — menu closes, focus returns to "File" trigger
+8. Open DevTools → Elements → inspect "File" button
+   — Show `role="menuitem"`, `aria-expanded="true"`, `aria-haspopup="menu"` toggling live

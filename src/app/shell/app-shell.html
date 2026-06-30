@@ -1,51 +1,39 @@
-<nav class="menubar" aria-label="Application menu">
+<nav ngMenuBar aria-label="Application menu" class="menubar">
   <div class="menu-group">
-    <button
-      class="menu-trigger"
-      aria-haspopup="true"
-      [attr.aria-expanded]="fileMenuOpen"
-      (click)="toggleFileMenu()"
-    >
+    <button ngMenuItem value="file" [submenu]="fileMenu" class="menu-trigger">
       File
     </button>
-    @if (fileMenuOpen) {
-      <ul class="menu" role="menu">
-        <li role="none">
-          <a role="menuitem" routerLink="/submit" (click)="closeMenus()">New Submission</a>
-        </li>
-        <li role="none">
-          <button role="menuitem" (click)="closeMenus()">Save Draft</button>
-        </li>
-        <li role="separator" class="menu-separator"></li>
-        <li role="none">
-          <button role="menuitem" (click)="closeMenus()">Exit</button>
-        </li>
-      </ul>
-    }
+    <ul ngMenu #fileMenu="ngMenu" class="menu">
+      <li role="none">
+        <a ngMenuItem value="new-submission" routerLink="/submit" class="menu-item-link">New Submission</a>
+      </li>
+      <li role="none">
+        <button ngMenuItem value="save-draft" class="menu-item-btn">Save Draft</button>
+      </li>
+      <li class="menu-separator" role="separator"></li>
+      <li role="none">
+        <button ngMenuItem value="exit" class="menu-item-btn">Exit</button>
+      </li>
+    </ul>
   </div>
 
   <div class="menu-group">
-    <button
-      class="menu-trigger"
-      aria-haspopup="true"
-      [attr.aria-expanded]="helpMenuOpen"
-      (click)="toggleHelpMenu()"
-    >
+    <button ngMenuItem value="help" [submenu]="helpMenu" class="menu-trigger">
       Help
     </button>
-    @if (helpMenuOpen) {
-      <ul class="menu" role="menu">
-        <li role="none">
-          <button role="menuitem" (click)="closeMenus()">Keyboard Shortcuts</button>
-        </li>
-        <li role="none">
-          <button role="menuitem" (click)="closeMenus()">About &#64;angular/aria</button>
-        </li>
-      </ul>
-    }
+    <ul ngMenu #helpMenu="ngMenu" class="menu">
+      <li role="none">
+        <button ngMenuItem value="keyboard-shortcuts" class="menu-item-btn">Keyboard Shortcuts</button>
+      </li>
+      <li role="none">
+        <button ngMenuItem value="about" class="menu-item-btn">About &#64;angular/aria</button>
+      </li>
+    </ul>
   </div>
 
   <a
+    ngMenuItem
+    value="about-site"
     href="https://nebraskacode.amegala.com/"
     target="_blank"
     rel="noreferrer"
