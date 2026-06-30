@@ -55,16 +55,8 @@
 }
 
 .menu-item-btn:hover,
-.menu-item-link:hover,
-[ngMenuItem]:hover .menu-item-btn,
-[ngMenuItem]:hover .menu-item-link {
+.menu-item-link:hover {
   background: var(--color-surface-active);
-}
-
-[ngMenuItem][aria-current='true'] .menu-item-btn,
-[ngMenuItem][aria-current='true'] .menu-item-link {
-  background: var(--color-surface-active);
-  color: var(--color-accent);
 }
 
 .menu-separator {

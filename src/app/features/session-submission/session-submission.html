@@ -61,13 +61,6 @@
             </ul>
           </ng-template>
         </div>
-        @if (sessionForm.talkTrack().touched() && sessionForm.talkTrack().invalid()) {
-          <ul class="field-errors" role="alert">
-            @for (error of sessionForm.talkTrack().errors(); track error.kind) {
-              <li>{{ error.message }}</li>
-            }
-          </ul>
-        }
       </div>
 
       <div class="field-group">

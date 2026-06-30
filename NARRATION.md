@@ -15,6 +15,8 @@ query in global.css, zero changes to any component."
 control accessibility. The library manages state and keyboard behavior. You handle
 everything the user sees."
 
+Note: `ng build` on branches 07 and 08 shows a 514 kB bundle warning — the 500 kB threshold was designed for branches 00–06. The excess is entirely @angular/material: that warning *is* the point.
+
 ## Keyboard demo sequence
 1. Tab through entire app — every interactive element has visible focus ring
 2. Open DevTools → Rendering → Enable 'Emulate CSS prefers-reduced-motion'
