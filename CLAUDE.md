@@ -48,7 +48,7 @@ All design tokens are in `src/styles/tokens.css` (colors, spacing, radii, durati
 
 **The key styling pattern**: interactive state is driven by ARIA attributes, not custom classes. Example:
 ```css
-[ngMenuTrigger][aria-expanded='true'] { background: var(--color-surface-active); }
+[ngMenuItem][aria-expanded='true'] { background: var(--color-surface-active); }
 ```
 This is intentional — it demonstrates `@angular/aria`'s value proposition. Do not introduce `.is-open` or similar classes.
 
@@ -58,7 +58,7 @@ Focus ring styling uses `--color-focus-ring` via the global `:focus-visible` rul
 
 | Primitive | Directives |
 |-----------|-----------|
-| Menu | `ngMenuBar`, `ngMenuTrigger [menu]`, `ngMenu #ref`, `ngMenuItem` |
+| Menu | `ngMenuBar`, `ngMenuItem [submenu]`, `ngMenu #ref` |
 | Accordion | `ngAccordionGroup [multiExpandable]`, `ngAccordionTrigger [panel]`, `ngAccordionPanel #ref`, `ngAccordionContent` |
 | Combobox | `ngCombobox`, `ngComboboxPopup [combobox] [popupType]`, `ngComboboxWidget`, `ngListbox`, `ngOption` |
 
