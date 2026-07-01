@@ -39,6 +39,7 @@
 }
 
 .field-input {
+  width: 100%;
   padding: var(--space-2) var(--space-3);
   background: var(--color-surface-elevated);
   border: 1px solid var(--color-border);
@@ -47,6 +48,7 @@
   font-size: 0.9375rem;
   font-family: inherit;
   transition: border-color var(--duration-fast) var(--easing-standard);
+  box-sizing: border-box;
 }
 
 .field-input:focus {
@@ -68,7 +70,7 @@
   background: var(--color-accent);
   border: none;
   border-radius: var(--radius-sm);
-  color: white;
+  color: var(--color-surface);
   font-weight: 600;
   transition: opacity var(--duration-fast) var(--easing-standard);
 }
@@ -106,10 +108,55 @@
   transition: background var(--duration-fast) var(--easing-standard);
 }
 
-/* Active option via ARIA attribute */
+.track-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-1);
+}
+
+.track-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px var(--space-2);
+  background: var(--color-surface-active);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+}
+
+.chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--duration-fast) var(--easing-standard), color var(--duration-fast) var(--easing-standard);
+}
+
+.chip-remove:hover {
+  background: var(--color-accent);
+  color: var(--color-surface);
+}
+
+/* Selected option — checkmark prefix + highlight */
 [ngOption][aria-selected='true'] {
   background: var(--color-surface-active);
   color: var(--color-accent);
+}
+
+[ngOption][aria-selected='true']::before {
+  content: '✓ ';
 }
 
 .autocomplete-empty {
@@ -138,11 +185,6 @@
   border-radius: var(--radius-sm);
   cursor: default;
   transition: background var(--duration-fast) var(--easing-standard);
-}
-
-[ngOption][aria-selected='true'] {
-  background: var(--color-surface-active);
-  color: var(--color-accent);
 }
 
 .comparison-heading {

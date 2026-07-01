@@ -590,6 +590,36 @@ You can bind a multi-selectable Listbox directly to a form array:
 </ul>
 ```
 
+## Known Bugs
+
+### MenuBar: transient `tabindex="0"` on the container element
+
+**Status:** Unfixed in library as of `@angular/aria` v22.0.2  
+**Symptom:** On first Tab press, focus lands on the `nav[ngMenuBar]` container instead of the first trigger button ("File"). The focus ring appears along the bottom edge of the nav bar, visually below the nav border.
+
+**Root cause — two overlapping issues in the library:**
+
+1. **Vacuous truth in `isListDisabled()`** (`_list-navigation-chunk.mjs`)
+   ```js
+   isListDisabled() {
+     return this.inputs.disabled() || this.inputs.items().every(i => i.disabled());
+   }
+   ```
+   `[].every(predicate)` always returns `true`. Before `SortedCollection.startObserving()` runs, `items = []`, so `isListDisabled()` returns `true`, and `getListTabIndex()` returns `0` — making the nav a tab stop.
+
+2. **Late initialization window** — `startObserving()` is called in `afterNextRender`, so items remain empty until after the first render cycle. In Angular's zoneless scheduler, the corrected `tabindex="-1"` DOM update may not flush before the user's first Tab press.
+
+**Workaround (apply in the component's CSS):**
+```css
+/* Composite widget — focus ring belongs on the individual triggers, not the container */
+[ngMenuBar]:focus-visible {
+  outline: none;
+}
+```
+This suppresses the spurious focus ring on the container. It is semantically correct regardless: a menubar is a single-tab-stop composite widget and its container should never display a focus ring.
+
+---
+
 ## General Rules for Agents
 
 1. **Never use native HTML elements like `<select>`** when asked to implement these specific Aria patterns. Use the `ng*` directives.

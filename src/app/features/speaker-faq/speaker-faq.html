@@ -4,8 +4,8 @@
   <div ngAccordionGroup [multiExpandable]="false" class="faq-group">
     <div class="faq-item">
       <button ngAccordionTrigger [panel]="panel1" class="faq-trigger">
+        <span class="faq-indicator" aria-hidden="true"></span>
         What format should my abstract be in?
-        <span class="faq-chevron" aria-hidden="true">&#8964;</span>
       </button>
       <div ngAccordionPanel #panel1="ngAccordionPanel" class="faq-panel">
         <ng-template ngAccordionContent>
@@ -18,8 +18,8 @@
 
     <div class="faq-item">
       <button ngAccordionTrigger [panel]="panel2" class="faq-trigger">
+        <span class="faq-indicator" aria-hidden="true"></span>
         How long is the demo slot?
-        <span class="faq-chevron" aria-hidden="true">&#8964;</span>
       </button>
       <div ngAccordionPanel #panel2="ngAccordionPanel" class="faq-panel">
         <ng-template ngAccordionContent>

@@ -5,5 +5,6 @@ import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionP
   selector: 'app-speaker-faq-material',
   imports: [MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle],
   templateUrl: './speaker-faq-material.html',
+  styleUrl: './speaker-faq-material.css',
 })
 export class SpeakerFaqMaterialComponent {}

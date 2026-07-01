@@ -47,21 +47,34 @@ export class SessionSubmissionComponent {
   readonly sessionForm = form(this.model, (path) => {
     required(path.speakerName, { message: 'Speaker name is required' });
     required(path.talkTrack, { message: 'Talk track is required' });
+    required(path.coSpeaker, { message: 'Session format is required' });
   });
 
   readonly submitted = signal(false);
 
-  /** Tracks the current text in the combobox input for filtering */
   readonly trackQuery = signal('');
+
+  readonly trackTouched = signal(false);
 
   /** Tracks the selected value from the listbox (talkTrack) */
   readonly selectedTrack = signal<string[]>([]);
 
   readonly filteredTracks = computed(() => {
+    if (!this.isFilteringTracks()) return ALL_TRACKS;
     const query = this.trackQuery().toLowerCase();
     if (!query) return ALL_TRACKS;
     return ALL_TRACKS.filter((t) => t.toLowerCase().includes(query));
   });
+
+  /** Controls visibility of the talk-track autocomplete popup */
+  readonly isTrackExpanded = signal(false);
+
+  /** True once the user has typed into the talk-track input; reset on focus so
+   *  focusing always shows the full list before any filtering begins. */
+  readonly isFilteringTracks = signal(false);
+
+  /** Controls visibility of the session-format popup */
+  readonly isFormatExpanded = signal(false);
 
   /** Session format options for the select-only combobox */
   readonly formats = SESSION_FORMATS;
@@ -72,21 +85,18 @@ export class SessionSubmissionComponent {
   /** The display value shown in the format combobox trigger */
   readonly formatQuery = signal('');
 
-  constructor() {
-    // Single write path: trackQuery is the source of truth for the input value.
-    // This effect keeps model.talkTrack in sync with whatever the user has typed.
-    effect(() => {
-      const query = this.trackQuery();
-      this.model.update((m) => ({ ...m, talkTrack: query }));
-    });
+  readonly formatTouched = signal(false);
 
-    // When the user selects a track from the listbox, update trackQuery.
-    // The effect above will then propagate the value to model.talkTrack.
+  removeTrack(track: string): void {
+    this.selectedTrack.update((tracks) => tracks.filter((t) => t !== track));
+  }
+
+  constructor() {
+    // Multi-select write path: joins all selected tracks for the model.
+    // trackQuery is NOT written here — the input stays clear for filtering.
     effect(() => {
       const selected = this.selectedTrack();
-      if (selected.length > 0) {
-        this.trackQuery.set(selected[0]);
-      }
+      this.model.update((m) => ({ ...m, talkTrack: selected.join(', ') }));
     });
 
     // When the user selects a format, write it to model.coSpeaker and update display.
@@ -95,6 +105,7 @@ export class SessionSubmissionComponent {
       const value = selected[0] ?? '';
       this.formatQuery.set(value);
       this.model.update((m) => ({ ...m, coSpeaker: value }));
+      if (value) this.isFormatExpanded.set(false);
     });
   }
 

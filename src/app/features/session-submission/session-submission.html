@@ -30,6 +30,21 @@
       <div class="field-group">
         <label class="field-label" for="talkTrack">Talk Track</label>
         <div class="autocomplete-wrapper">
+          @if (selectedTrack().length > 0) {
+            <div class="track-chips" role="group" aria-label="Selected tracks">
+              @for (track of selectedTrack(); track track) {
+                <span class="track-chip">
+                  {{ track }}
+                  <button
+                    type="button"
+                    class="chip-remove"
+                    (click)="removeTrack(track)"
+                    [attr.aria-label]="'Remove ' + track"
+                  >×</button>
+                </span>
+              }
+            </div>
+          }
           <input
             id="talkTrack"
             type="text"
@@ -37,6 +52,11 @@
             ngCombobox
             #combobox="ngCombobox"
             [(value)]="trackQuery"
+            [(expanded)]="isTrackExpanded"
+            (focus)="isTrackExpanded.set(true); isFilteringTracks.set(false); trackQuery.set('')"
+            (input)="isFilteringTracks.set(true)"
+            (blur)="trackTouched.set(true); trackQuery.set('')"
+            [placeholder]="selectedTrack().length === 0 ? 'Search tracks…' : 'Add more tracks…'"
           />
           <ng-template ngComboboxPopup [combobox]="combobox" [popupType]="'listbox'">
             <ul
@@ -44,7 +64,8 @@
               ngListbox
               #listbox="ngListbox"
               focusMode="activedescendant"
-              selectionMode="follow"
+              selectionMode="explicit"
+              [multi]="true"
               [activeDescendant]="listbox.activeDescendant()"
               [(value)]="selectedTrack"
               class="autocomplete-panel"
@@ -61,6 +82,13 @@
             </ul>
           </ng-template>
         </div>
+        @if (trackTouched() && sessionForm.talkTrack().invalid()) {
+          <ul class="field-errors" role="alert">
+            @for (error of sessionForm.talkTrack().errors(); track error.kind) {
+              <li>{{ error.message }}</li>
+            }
+          </ul>
+        }
       </div>
 
       <div class="field-group">
@@ -72,7 +100,10 @@
             class="field-input"
             ngCombobox
             #formatCombobox="ngCombobox"
-            [value]="formatQuery()"
+            [(value)]="formatQuery"
+            [(expanded)]="isFormatExpanded"
+            (focus)="isFormatExpanded.set(true)"
+            (blur)="formatTouched.set(true)"
             placeholder="Select a format…"
             readonly
           />
@@ -96,6 +127,13 @@
             </ul>
           </ng-template>
         </div>
+        @if (formatTouched() && sessionForm.coSpeaker().invalid()) {
+          <ul class="field-errors" role="alert">
+            @for (error of sessionForm.coSpeaker().errors(); track error.kind) {
+              <li>{{ error.message }}</li>
+            }
+          </ul>
+        }
       </div>
 
       <button type="submit" class="submit-btn" [disabled]="sessionForm().invalid()">

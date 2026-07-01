@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+
+  /* Material M3 design tokens — set on :host so they cascade into panels */
+  --mat-expansion-container-background-color: transparent;
+  --mat-expansion-container-text-color: var(--color-text-muted);
+  --mat-expansion-header-text-color: var(--color-text);
+  --mat-expansion-header-indicator-color: var(--color-text);
+  --mat-expansion-header-hover-state-layer-color: var(--color-surface-active);
+  --mat-expansion-header-focus-state-layer-color: var(--color-surface-active);
+}
+
+/* Expanded header: accent color to match [aria-expanded='true'] rule in aria accordion */
+::ng-deep .mat-expansion-panel-header.mat-expanded {
+  color: var(--color-accent);
+}
+
+::ng-deep .mat-expansion-panel-header.mat-expanded .mat-expansion-indicator::after {
+  border-color: var(--color-accent);
+}
+
+/* Divider between panels — mirrors .faq-item border-top */
+::ng-deep .mat-expansion-panel {
+  border-top: 1px solid var(--color-border);
+  box-shadow: none !important;
+}
+
+::ng-deep .mat-expansion-panel:first-of-type {
+  border-top: none;
+  border-radius: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel:last-of-type {
+  border-radius: 0 !important;
+}
+
+/* Focus ring on header to match aria accordion's :focus-visible style */
+::ng-deep .mat-expansion-panel-header:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

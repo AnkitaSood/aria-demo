@@ -1,6 +1,6 @@
 <nav ngMenuBar aria-label="Application menu" class="menubar">
   <div class="menu-group">
-    <button ngMenuTrigger [menu]="fileMenu" class="menu-trigger">
+    <button ngMenuItem value="file" [submenu]="fileMenu" class="menu-trigger">
       File
     </button>
     <ul ngMenu #fileMenu="ngMenu" class="menu">
@@ -18,7 +18,7 @@
   </div>
 
   <div class="menu-group">
-    <button ngMenuTrigger [menu]="helpMenu" class="menu-trigger">
+    <button ngMenuItem value="help" [submenu]="helpMenu" class="menu-trigger">
       Help
     </button>
     <ul ngMenu #helpMenu="ngMenu" class="menu">
@@ -30,6 +30,17 @@
       </li>
     </ul>
   </div>
+
+  <a
+    ngMenuItem
+    value="about-site"
+    href="https://nebraskacode.amegala.com/"
+    target="_blank"
+    rel="noreferrer"
+    class="menu-link"
+  >
+    About
+  </a>
 </nav>
 
 <main class="main-content">
