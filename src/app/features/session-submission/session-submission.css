@@ -1,4 +1,4 @@
-.submission-layout {
+:host {
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: var(--space-5);
