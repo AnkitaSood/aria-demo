@@ -15,7 +15,6 @@
         type="text"
         class="field-input"
         [formField]="sessionForm.speakerName"
-        autocomplete="name"
       />
       @if (sessionForm.speakerName().touched() && sessionForm.speakerName().invalid()) {
         <ul class="field-errors" role="alert">
