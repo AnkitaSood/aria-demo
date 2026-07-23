@@ -155,6 +155,11 @@
   color: var(--color-accent);
 }
 
+[ngOption]:hover,
+[ngOption][data-active='true'] {
+  background: var(--color-border);
+}
+
 [ngOption][aria-selected='true']::before {
   content: '✓ ';
 }
